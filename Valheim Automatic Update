@@ -1,0 +1,14 @@
+#!/bin/bash
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"Servers Going Down in 5 Minutes\"}" https://discord.com/api/webhooks/
+sleep 5m
+service valheimserver stop
+cp /home/steam/.config/unity3d/IronGate/Valheim/worlds/BattieWorld.db /home/steam/.config/unity3d/IronGate/Valheim/worlds/BattieWorld.dbGood
+cp /home/steam/.config/unity3d/IronGate/Valheim/worlds/BattieWorld.fwl /home/steam/.config/unity3d/IronGate/Valheim/worlds/BattieWorld.fwlGood
+
+service valheimserver start
+if (( $(ps -ef | grep -v grep | grep valheimserver | wc -l) > 0 ))
+then
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"Vikings! The Server Is Back Online\"}" https://discord.com/api/webhooks/
+else
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST --data "{\"content\": \"Godverdomme Shit Werkt Niet. TechSupport @Mammoet {If Serious} @TheRealLemon\"}" https://discord.com/api/webhooks/
+fi
